@@ -282,9 +282,15 @@ main {
   padding: 5px;
 }
 
+/* Register */
+.register-page{
+  background-color: lightcyan;
+}
+
 /* Login CSS */
 .login-page h2, .register-page h2 {
   font-weight: normal;
+  color: black;
 }
 
 .login-input, .register-input, .contact-input {
