@@ -5,7 +5,8 @@ import ButtonDelete from './ButtonDelete';
 import ButtonArchive from './ButtonArchive';
 import ButtonUnArchive from './ButtonUnArchive';
 
-function NoteDetail({ id, title, createdAt, body, archived }) {
+function NoteDetailWrapper({ id, title, createdAt, body, archived }) {
+
     return (
         <div className='detail-page'>
             <h2 className='detail-page__title'>{title}</h2>
@@ -20,7 +21,7 @@ function NoteDetail({ id, title, createdAt, body, archived }) {
     );
 }
 
-NoteDetail.propTypes = {
+NoteDetailWrapper.propTypes = {
     id: PropTypes.string.isRequired,
     title: PropTypes.string.isRequired,
     createdAt: PropTypes.string.isRequired,
@@ -28,4 +29,4 @@ NoteDetail.propTypes = {
     body: PropTypes.string.isRequired
 };
 
-export default NoteDetail;
+export default NoteDetailWrapper;

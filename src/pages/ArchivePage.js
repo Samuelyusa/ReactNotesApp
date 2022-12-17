@@ -1,9 +1,10 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { useSearchParams } from 'react-router-dom';
 import NoteList from '../components/NoteList';
 import SearchBar from '../components/SearchBar';
-import { getArchivedNotes } from '../utils/local-data';
-import PropTypes from 'prop-types';
+// import { getArchivedNotes } from '../utils/local-data';
+import { getArchivedNotes, deleteNote } from '../utils/api';
 
 function ArchivedPageWrapper() {
     const [searchParams, setSearchParams] = useSearchParams();
@@ -20,11 +21,34 @@ class ArchivedPage extends React.Component {
         super(props);
 
         this.state = {
-        ArchivedNotes: getArchivedNotes(),
+        // ArchivedNotes: getArchivedNotes(),
+        ArchivedNotes: [],
         keyword: props.defaultKeyword || '',
         };
 
+        this.onDeleteHandler = this.onDeleteHandler.bind(this);
         this.onKeywordChangeHandler = this.onKeywordChangeHandler.bind(this);
+    }
+
+    async componentDidMount() {
+        const { data } = await getArchivedNotes();
+
+        this.setState(() => {
+            return {
+                ArchivedNotes: data,
+            }
+        });
+    }
+
+    async onDeleteHandler(id){
+        await deleteNote(id);
+
+        const { data } = await getArchivedNotes();
+        this.setState(() => {
+            return {
+                ArchivedNotes: data,
+            }
+        });
     }
 
     onKeywordChangeHandler(keyword) {

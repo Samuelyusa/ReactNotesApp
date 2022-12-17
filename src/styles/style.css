@@ -23,6 +23,7 @@
   padding: 0;
   margin: 0;
   box-sizing: border-box;
+  transition: background 0.3s ease-in;
 }
 
 a {
@@ -282,16 +283,16 @@ main {
   padding: 5px;
 }
 
-/* Register */
+/* Register
 .register-page{
   background-color: lightcyan;
-}
+} */
 
-/* Login CSS */
+/* Login CSS
 .login-page h2, .register-page h2 {
   font-weight: normal;
   color: black;
-}
+} */
 
 .login-input, .register-input, .contact-input {
   margin-top: 16px;
@@ -304,8 +305,10 @@ main {
   margin: 8px 0;
   font-size: 24px;
   background-color: transparent;
-  border: 2px dashed black;
+  border: 2px dashed;
   border-radius: 8px;
+  border-color: var(--on-background);
+  color: var(--on-background);
 }
 
 .login-input button, .register-input button, .contact-input button {
@@ -314,8 +317,9 @@ main {
   padding: 16px;
   font-size: 24px;
   background-color: tan;
-  border: 2px dashed black;
+  border: 2px dashed;
   border-radius: 8px;
+  border-color: var(--on-background);
   margin: 16px 0;
 }
 

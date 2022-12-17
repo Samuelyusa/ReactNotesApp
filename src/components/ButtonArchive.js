@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
-import { archiveNote } from "../utils/local-data";
+// import { archiveNote } from "../utils/local-data";
+import { archiveNote } from "../utils/api";
 import PropTypes from 'prop-types';
 
 function ButtonArchive ({id, isArchive}) {

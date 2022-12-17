@@ -1,10 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { useSearchParams } from 'react-router-dom';
 import NoteList from '../components/NoteList';
 import SearchBar from '../components/SearchBar';
 import ButtonAdd from '../components/ButtonAdd';
-import { getActiveNotes} from '../utils/local-data';
-import PropTypes from 'prop-types';
+import { getActiveNotes, deleteNote } from '../utils/api';
+import { LangConsumer } from '../contexts/LangContext';
 
 function HomePageWrapper() {
     const [searchParams, setSearchParams] = useSearchParams();
@@ -22,11 +23,22 @@ class HomePage extends React.Component {
         super(props);
 
         this.state = {
-        ActivedNotes: getActiveNotes(),
+        // ActivedNotes: getActiveNotes(),
+        ActivedNotes: [],
         keyword: props.defaultKeyword || '',
         };
 
+        // this.onDeleteHandler = this.onDeleteHandler.bind(this);
         this.onKeywordChangeHandler = this.onKeywordChangeHandler.bind(this);
+    }
+
+    async componentDidMount() {
+        const { data } = await getActiveNotes();
+        this.setState(() => {
+            return {
+                ActivedNotes: data,
+            }
+        });
     }
 
     onKeywordChangeHandler(keyword) {
@@ -46,16 +58,25 @@ class HomePage extends React.Component {
         });
 
         return (
-        <section className='homePage'>
-            <h2>Catatan Aktif</h2>
-            <SearchBar keyword={this.state.keyword} keywordChange={this.onKeywordChangeHandler} />
-            <NoteList notes={ActivedNotes} />
-            <div className="detail-page__action">
-                <ButtonAdd />
-            </div>
-        </section>
-        
-        );
+            <LangConsumer>
+                {
+                    ({language}) => {
+                        return(
+                            <section className='homePage'>
+                                <h2>
+                                    {language === 'id' ? 'Catatan Aktif' : 'Active Notes' }
+                                </h2>
+                                <SearchBar keyword={this.state.keyword} keywordChange={this.onKeywordChangeHandler} />
+                                <NoteList notes={ActivedNotes} />
+                                <div className="detail-page__action">
+                                    <ButtonAdd />
+                                </div>
+                            </section>
+                        )
+                    }
+                }
+            </LangConsumer>
+        )
     }
 }
 
