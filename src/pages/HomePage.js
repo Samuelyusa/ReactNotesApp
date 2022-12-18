@@ -23,16 +23,26 @@ class HomePage extends React.Component {
         super(props);
 
         this.state = {
-        // ActivedNotes: getActiveNotes(),
         ActivedNotes: [],
         keyword: props.defaultKeyword || '',
         };
 
-        // this.onDeleteHandler = this.onDeleteHandler.bind(this);
+        this.onDeleteHandler = this.onDeleteHandler.bind(this);
         this.onKeywordChangeHandler = this.onKeywordChangeHandler.bind(this);
     }
 
     async componentDidMount() {
+        const { data } = await getActiveNotes();
+        this.setState(() => {
+            return {
+                ActivedNotes: data,
+            }
+        });
+    }
+
+    async onDeleteHandler(id){
+        await deleteNote(id);
+
         const { data } = await getActiveNotes();
         this.setState(() => {
             return {

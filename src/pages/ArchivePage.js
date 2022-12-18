@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { useSearchParams } from 'react-router-dom';
 import NoteList from '../components/NoteList';
 import SearchBar from '../components/SearchBar';
-// import { getArchivedNotes } from '../utils/local-data';
 import { getArchivedNotes, deleteNote } from '../utils/api';
+import { LangConsumer } from '../contexts/LangContext';
 
 function ArchivedPageWrapper() {
     const [searchParams, setSearchParams] = useSearchParams();
@@ -21,7 +21,6 @@ class ArchivedPage extends React.Component {
         super(props);
 
         this.state = {
-        // ArchivedNotes: getArchivedNotes(),
         ArchivedNotes: [],
         keyword: props.defaultKeyword || '',
         };
@@ -68,11 +67,20 @@ class ArchivedPage extends React.Component {
         });
 
         return (
-        <section className='archivedPage'>
-            <h2>Catatan Arsip</h2>
-            <SearchBar keyword={this.state.keyword} keywordChange={this.onKeywordChangeHandler} />
-            <NoteList notes={ArchivedNotes} />
-        </section>
+            <LangConsumer>
+                {
+                    ({language}) => {
+                        return(
+                            <section className='archivedPage'>
+                                <h2>
+                                    {language === 'id' ? 'Catatan Arsip' : 'Archive Notes' }</h2>
+                                <SearchBar keyword={this.state.keyword} keywordChange={this.onKeywordChangeHandler} />
+                                <NoteList notes={ArchivedNotes} />
+                            </section>
+                        )
+                    }
+                }
+            </LangConsumer>
         );
     }
 }
