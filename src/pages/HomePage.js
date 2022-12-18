@@ -14,7 +14,7 @@ function HomePageWrapper() {
         setSearchParams((keyword));
     }
 
-    return <HomePage defaultKeyword={keyword} keywordChange={changeSearchParams} />
+return <HomePage defaultKeyword={keyword} keywordChange={changeSearchParams} />
 }
 
 
@@ -30,7 +30,7 @@ class HomePage extends React.Component {
         this.onDeleteHandler = this.onDeleteHandler.bind(this);
         this.onKeywordChangeHandler = this.onKeywordChangeHandler.bind(this);
     }
-
+    
     async componentDidMount() {
         const { data } = await getActiveNotes();
         this.setState(() => {
