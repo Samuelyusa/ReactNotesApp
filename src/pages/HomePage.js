@@ -1,98 +1,54 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { useSearchParams } from 'react-router-dom';
 import NoteList from '../components/NoteList';
 import SearchBar from '../components/SearchBar';
 import ButtonAdd from '../components/ButtonAdd';
-import { getActiveNotes, deleteNote } from '../utils/api';
-import { LangConsumer } from '../contexts/LangContext';
+import { getActiveNotes } from '../utils/api';
+import LangContext from '../contexts/LangContext';
 
-function HomePageWrapper() {
-    const [searchParams, setSearchParams] = useSearchParams();
-    const keyword = searchParams.get('keyword');
-    function changeSearchParams(keyword) {
-        setSearchParams((keyword));
-    }
+function HomePage(){
+    const [searchParams, setSearchParams]= useSearchParams();
+    const [notes, setNotes] = React.useState([]);
+    const [keyword, setKeyword] = React.useState(() => {
+        return searchParams.get('keyword') || ''
+    });
+    const {language} = React.useContext(LangContext);
 
-return <HomePage defaultKeyword={keyword} keywordChange={changeSearchParams} />
-}
+    React.useEffect(() => {
+        async function fetchActivedNotes() {
+            const {data}= await getActiveNotes();
+            setNotes(data);
+        }
+        fetchActivedNotes();
 
-
-class HomePage extends React.Component {
-    constructor(props) {
-        super(props);
-
-        this.state = {
-        ActivedNotes: [],
-        keyword: props.defaultKeyword || '',
+        return () => {
+            setNotes(null);
         };
+    },[]);
 
-        this.onDeleteHandler = this.onDeleteHandler.bind(this);
-        this.onKeywordChangeHandler = this.onKeywordChangeHandler.bind(this);
-    }
-    
-    async componentDidMount() {
-        const { data } = await getActiveNotes();
-        this.setState(() => {
-            return {
-                ActivedNotes: data,
-            }
-        });
+    function onKeywordChangeHandler(keyword){
+        setKeyword(keyword);
+        setSearchParams({keyword});
     }
 
-    async onDeleteHandler(id){
-        await deleteNote(id);
+    const filteredNotes = notes.filter((note) => {
+        return note.title.toLowerCase().includes(
+            keyword.toLowerCase()
+        );
+    });
 
-        const { data } = await getActiveNotes();
-        this.setState(() => {
-            return {
-                ActivedNotes: data,
-            }
-        });
-    }
-
-    onKeywordChangeHandler(keyword) {
-        this.setState(() => {
-            return {
-                keyword,
-            }
-        });
-        this.props.keywordChange(keyword);
-    }
-
-    render() {
-        const ActivedNotes = this.state.ActivedNotes.filter((note) => {
-            return note.title.toLowerCase().includes(
-                this.state.keyword.toLowerCase()
-            );
-        });
-
-        return (
-            <LangConsumer>
-                {
-                    ({language}) => {
-                        return(
-                            <section className='homePage'>
-                                <h2>
-                                    {language === 'id' ? 'Catatan Aktif' : 'Active Notes' }
-                                </h2>
-                                <SearchBar keyword={this.state.keyword} keywordChange={this.onKeywordChangeHandler} />
-                                <NoteList notes={ActivedNotes} />
-                                <div className="detail-page__action">
-                                    <ButtonAdd />
-                                </div>
-                            </section>
-                        )
-                    }
-                }
-            </LangConsumer>
-        )
-    }
+    return (
+            <section className='homePage'>
+                <h2>
+                    {language === 'id' ? 'Catatan Aktif' : 'Active Notes' }
+                </h2>
+                <SearchBar keyword={keyword} keywordChange={onKeywordChangeHandler} />
+                <NoteList notes={filteredNotes} />
+                <div className="detail-page__action">
+                    <ButtonAdd />
+                </div>
+            </section>
+    )
 }
 
-HomePage.propTypes = {
-    defaultKeyword: PropTypes.string,
-    keywordChange: PropTypes.func.isRequired
-}
-
-export default HomePageWrapper;
+export default HomePage;
