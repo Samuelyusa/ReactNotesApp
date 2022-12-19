@@ -99,10 +99,13 @@ class NoteApp extends React.Component{
     if (this.state.authedUser === null) {
       return (
         <LangProvider value={this.state.langContext}>
+        {/* // <LangContext.Provider value={LangContextValue}> */}
           <div className='app-container'>
               <header>
                 <h1>
-                  { this.state.langContext.language === 'id' ? 'Aplikasi Catatan' : 'Notes App' }
+                { this.state.langContext.language === 'id' ? 'Aplikasi Catatan' : 'Notes App' }
+                  {/* { language === 'id' ? 'Aplikasi Catatan' : 'Notes App' } */}
+              
                 </h1>
               </header>
               <main>
@@ -112,12 +115,14 @@ class NoteApp extends React.Component{
                 </Routes>
               </main>
             </div>
-          </LangProvider>
+        {/* </LangContext.Provider>  */}
+          </LangProvider >
       )
     }
     
     return (
       <LangProvider value={this.state.langContext}>
+      {/* // <LangContext.Provider value={LangContextValue}> */}
       <ThemeProvider value={this.state}>
         <div className='app-container'>
           <header>
@@ -137,6 +142,7 @@ class NoteApp extends React.Component{
           </main>
         </div>
       </ThemeProvider>
+      {/* </LangContext.Provider> */}
       </LangProvider>
     );
   }

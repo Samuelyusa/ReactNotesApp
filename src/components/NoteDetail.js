@@ -7,19 +7,19 @@ import ButtonUnArchive from './ButtonUnArchive';
 
 function NoteDetailWrapper({ id, title, createdAt, body, archived }) {
 
-    return (
-        <div className='detail-page'>
-            <h2 className='detail-page__title'>{title}</h2>
-            <h5 className='detail-page__createdAt'>{ showFormattedDate(createdAt)}</h5>
-            <div className='detail-page__body'>{body}</div>
-            <div className="detail-page__action">
-                <ButtonArchive id={id} isArchive={archived} />
-                <ButtonUnArchive id={id} isArchive={archived}/>
-                <ButtonDelete id={id} isArchive={archived}/>
-            </div>
-        </div>
-    );
-}
+        return (
+                <div className='detail-page'>
+                    <h2 className='detail-page__title'>{title}</h2>
+                    <h5 className='detail-page__createdAt'>{showFormattedDate(createdAt)}</h5>
+                    <div className='detail-page__body'>{body}</div>
+                    <div className="detail-page__action">
+                        <ButtonArchive id={id} isArchive={archived} />
+                        <ButtonUnArchive id={id} isArchive={archived} />
+                        <ButtonDelete id={id} isArchive={archived} />
+                    </div>
+                </div>
+            );
+        }
 
 NoteDetailWrapper.propTypes = {
     id: PropTypes.string.isRequired,

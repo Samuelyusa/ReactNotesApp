@@ -1,3 +1,8 @@
+import React from 'react';
+import { LangConsumer } from '../contexts/LangContext';
+
+
+
 const showFormattedDate = (date) => {
   const options = {
     weekday: 'long',
@@ -5,7 +10,21 @@ const showFormattedDate = (date) => {
     month: 'long',
     day: 'numeric',
   };
-  return new Date(date).toLocaleDateString('id-ID', options);
-};
+
+  return (
+    <LangConsumer>
+      {
+        ({ language }) => {
+            if(language === 'id') {
+            return new Date(date).toLocaleDateString('id-ID', options);
+          }
+            else{
+            return new Date(date).toLocaleDateString('en-EN', options);
+          }
+        }
+      }
+    </LangConsumer>
+  )
+}
 
 export { showFormattedDate };

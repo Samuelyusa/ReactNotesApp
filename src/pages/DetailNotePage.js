@@ -33,14 +33,23 @@ class DetailNotePage extends React.Component {
 
     render() {
         if (this.state.note === null) {
-        return <p>Note is not found!</p>;
+            <div className="lds-ellipsis">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+        } else {
+            return (
+                <section>
+                        <NoteDetail {...this.state.note} />
+                </section>
+            );
         }
 
-        return (
-        <section>
-                <NoteDetail {...this.state.note} />
-        </section>
-        );
+        // if (this.state.note === 0) {
+        //     return <p>Note is not found!</p>;
+        // }
     }
 }
 

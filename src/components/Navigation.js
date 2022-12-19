@@ -4,17 +4,18 @@ import { Link } from 'react-router-dom';
 import { FiHome, FiPlusCircle, FiLogOut } from 'react-icons/fi';
 import ToggleTheme from './ToggleTheme';
 import { LangConsumer } from '../contexts/LangContext';
+import ToggleLang from './ToggleLang';
 
 function Navigation({ logout, name }) {
     return (
         <LangConsumer>
             {
-                ({ language, toggleLang }) => {
+                ({ language }) => {
                     return (
                         <nav>
                             <ul>
                                 <li>
-                                    <button onClick={toggleLang}>{language === 'id' ? 'en' : 'id'}</button>
+                                    <ToggleLang/>
                                 </li>
                                 <li>
                                     <Link to="/">
@@ -30,7 +31,7 @@ function Navigation({ logout, name }) {
                                     <ToggleTheme/>
                                 </li>
                                 <li>
-                                    <button onClick={logout}>{name} <FiLogOut /></button>
+                                    <button className='button-logout' onClick={logout}>{name} <FiLogOut /></button>
                                 </li>
                             </ul>
                         </nav>

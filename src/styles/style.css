@@ -205,7 +205,7 @@ main {
   color: var(--on-background-grey);
 }
 
-.toggle-theme, .toggle-locale {
+.toggle-theme, .toggle-lang {
   background-color: transparent;
   border: 0;
   cursor: pointer;
@@ -216,10 +216,10 @@ main {
 }
 
 .toggle-theme {
-  font-size: 36px;
+  font-size: 1em;
 }
 
-.toggle-locale {
+.toggle-lang {
   font-size: 28px;
 }
 

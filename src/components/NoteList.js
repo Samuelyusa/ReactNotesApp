@@ -4,22 +4,22 @@ import NoteItem from './NoteItem';
 import { getActiveNotes } from '../utils/api';
 
 function NoteList({ notes }) {
-
-    const [activedNotes, setActivedNotes] = React.useState(null);
+    const [loading, setLoading] = React.useState(true);
+    const [activedNotes, setActivedNotes] = React.useState([]);
 
     React.useEffect(() => {
-        async function fetchActivedNotes() {
-            const { data } = await getActiveNotes();
-            setActivedNotes(data);
-        }
-        fetchActivedNotes();
+        getActiveNotes().then((activedNotes) => {
+            setActivedNotes(activedNotes);
+            setLoading(false);
+        });
 
         return () => {
             setActivedNotes(null);
+            setLoading(true);
         };
-    }, [notes]);
+    }, []);
 
-    if (activedNotes === null) {
+    if (loading) {
         return (
             <div className="lds-ellipsis">
                 <div></div>
@@ -29,15 +29,6 @@ function NoteList({ notes }) {
             </div>
         )
     }
-
-    if (notes.length === 0) {
-        return (
-            <div className='notes-list-empty'>
-                <p>Tidak ada Catatan</p>
-            </div>
-        );
-    }
-    else {
         return (
             <div className='notes-list'>
             {notes.map((note) => (
@@ -45,11 +36,11 @@ function NoteList({ notes }) {
             ))}
             </div>
         );
-    }
 }
 
 NoteList.propTypes = {
     notes: PropTypes.arrayOf(PropTypes.object).isRequired,
 }
+
 
 export default NoteList;

@@ -5,7 +5,7 @@ function ToggleTheme() {
     return (
         <ThemeConsumer>
         {({ theme, toggleTheme }) => {
-            return <button onClick={toggleTheme}>{theme === 'light' ? <FaMoon /> : <FaSun />}</button>;
+            return <button className='toggle-theme' onClick={toggleTheme}>{theme === 'light' ? <FaMoon /> : <FaSun />}</button>;
         }}
         </ThemeConsumer>
     );
